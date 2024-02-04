@@ -1,0 +1,43 @@
+
+const inputBox = document.getElementById('input-box');
+const listContainer = document.getElementById('list-container');
+ 
+function addTask(){
+    
+    if( inputBox.value === ''){
+        alert('You must write something!');
+    }
+
+    else {
+        let li = document.createElement("li");
+        li.innerHTML = inputBox.value;
+        listContainer.appendChild(li);
+        saveData(); 
+
+        let span = document.createElement("span");
+        span.innerHTML = "\u00d7";   // "\u00d7" is cross icon code name-->
+        li.appendChild(span);
+        saveData(); 
+    }
+    inputBox.value = "";
+    saveData(); 
+}
+ listContainer.addEventListener("click", function(e){
+    if(e.target.tagName ==='LI'){            
+        e.target.classList.toggle("checked");
+        saveData();   //this is used "toggle" to fill and line through on the  list
+    }
+    else if (e.target.tagName === 'SPAN')
+    {
+        e.target.parentElement.remove();
+        saveData();    //this is used "remove" on the  list of the cross icon
+    }
+    }, false);
+    
+    function saveData(){
+        localStorage.setItem( "data", listContainer.innerHTML) //for saving data in localstorage by using "setItem"
+    }
+    function showTask(){
+        listContainer.innerHTML = localStorage.getItem("data");// for showing datalist on screen by using "getItem" data and for showing  "showTask"
+    }
+    showTask();
